@@ -1,8 +1,4 @@
 #include <iostream>
-/*
- * boj 2447 gold5
- * 별찍기-10(재귀)
- */
 using namespace std;
 
 void star(int i, int j, int num)
