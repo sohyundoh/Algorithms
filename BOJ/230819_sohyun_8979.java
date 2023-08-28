@@ -14,7 +14,6 @@ public class Main {
 
          int n = input[0];
          int query = input[1]; 
-        
         TreeMap<Medal, ArrayList<Integer>> ranking = new TreeMap<>();
 
         for(int i=0;i<n;i++){
