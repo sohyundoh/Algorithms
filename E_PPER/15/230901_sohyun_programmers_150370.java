@@ -1,7 +1,7 @@
 class Solution {
     HashMap<String, String> term;
     public int[] solution(String today, String[] terms, String[] privacies) {
-        boolean 
+        boolean[] isExpired = {};
         int[] answer = {};
         return answer;
     }
