@@ -1,53 +1,36 @@
 class Solution {
-public int[] solution(String today, String[] terms, String[] privacies) {
-    int[] answer = {};
-    Map<String, String> termsMap = new HashMap<>(); // key : 종류, value : 기간
-    for (String term : terms) {
-        String[] termSplit = term.split(" ");
-        termsMap.put(termSplit[0], termSplit[1]);
-    }
+        public int[] solution(String today, String[] terms, String[] privacies) {
+            int[] answer = {};
+            Map<String, String> termsMap = new HashMap<>();
+            for (String term : terms) {
+                String[] termSplit = term.split(" ");
+                termsMap.put(termSplit[0], termSplit[1]);
+            }
 
-    Integer number = 1; // privacies 의 번호
-    List<Integer> result = new ArrayList<>();
-    // 현재 총 날짜 수
-    Integer todayTotalDate = getTotalDate(today, 0);
-    for (String p : privacies) {
-        String[] privateSplit = p.split(" ");
-        // 개인별 날짜
-        String privateDate = privateSplit[0];
-        // 개인별 약관 정보
-        String privateTerm = privateSplit[1];
-        // 약관 개월수
-        Integer termsMonth = Integer.valueOf(termsMap.get(privateTerm));
-
-        // 기간 경과 후 총 날짜 수
-        Integer privateTotalDate = getTotalDate(privateDate, termsMonth) - 1; // 기간이므로 -1
-        // 기간경과후 날짜가 현재 날짜보다 과거이면 폐기대상이다.
-        if (privateTotalDate < todayTotalDate) { // 현재 당일은 아직 폐기대상 아님
-            // 유효기간 경과하여 폐기대상인 번호를 추가
-            result.add(number);
+            Integer number = 1;
+            List<Integer> result = new ArrayList<>();
+            Integer todayTotalDate = getTotalDate(today, 0);
+            for (String p : privacies) {
+                String[] privateSplit = p.split(" ");
+                String privateDate = privateSplit[0];
+                String privateTerm = privateSplit[1];
+                Integer termsMonth = Integer.valueOf(termsMap.get(privateTerm));
+                Integer privateTotalDate = getTotalDate(privateDate, termsMonth) - 1;
+                if (privateTotalDate < todayTotalDate) {
+                    result.add(number);
+                }
+                number++;
+            }
+            answer = result.stream().mapToInt(Integer::intValue).toArray();
+            return answer;
         }
-        // privacies 의 번호 +1
-        number++;
-    }
-    answer = result.stream().mapToInt(Integer::intValue).toArray();
-    return answer;
-}
 
-/**
- * (YYYY.MM.DD)을 총 날짜 수로 환산
- * @param strDate YYYY.MM.DD
- * @param termsMonth 약관 개월 수
- * @return 날짜로 환산한 총 날짜 수
- */
-private Integer getTotalDate(String strDate, Integer termsMonth) {
-    // 날짜 정보
-    String[] dateSplit = strDate.split("\\.");
-    Integer year = Integer.valueOf(dateSplit[0]);
-    Integer month = Integer.valueOf(dateSplit[1]) + termsMonth;
-    Integer day = Integer.valueOf(dateSplit[2]);
+        private Integer getTotalDate(String strDate, Integer termsMonth) {
+            String[] dateSplit = strDate.split("\\.");
+            Integer year = Integer.valueOf(dateSplit[0]);
+            Integer month = Integer.valueOf(dateSplit[1]) + termsMonth;
+            Integer day = Integer.valueOf(dateSplit[2]);
 
-    // 모두 일 수로 환산, 한 달은 28일
-    return (year * 12 * 28) + (month * 28) + day;
-}
+            return (year * 12 * 28) + (month * 28) + day;
+        }
 }
