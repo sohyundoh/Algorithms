@@ -1,4 +1,5 @@
 #include <iostream>
+
 using namespace std;
 
 int combination(int n, int r)
